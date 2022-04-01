@@ -19,6 +19,16 @@ def subscribe():
     return redirect(url_for('index'))
 
 
+@app.route('/<pokemon_id>')
+def pokemon(pokemon_id):
+    try:
+        _, pokemon_name, image_url, description  = helper.fetch_pokemon(pokemon_id)
+        return render_template('pokemon.html', description = description, sprites=[image_url], name = pokemon_name)
+    except Exception as e:
+        # TODO: handle exception properly
+        return redirect(url_for('index'))
+
+
 port = int(os.environ.get('PORT', 5000))
 if __name__ == '__main__':
     app.run(threaded=True, port=port, debug=True)

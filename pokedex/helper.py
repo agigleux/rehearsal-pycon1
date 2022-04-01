@@ -8,6 +8,11 @@ class ConnectionWrapper:
     def __init__(self):
         self.__conn = sqlite3.connect('../database.db')
 
+    def get_single_pokemon(self, pokemon_id):
+        statement = f"SELECT * FROM POKEDEX WHERE id = '{pokemon_id}'"
+        print(statement)
+        return self.__conn.execute(statement).fetchone()
+
     def get_all_pokemons(self):
         statement = "SELECT * FROM POKEDEX"
         return self.__conn.execute(statement).fetchall()
@@ -38,3 +43,12 @@ def register_subscriber(email):
     wrapper = ConnectionWrapper()
     wrapper.register_subscriber(email)
     pass
+
+
+def fetch_pokemon(pokemon_id):
+    wrapper = ConnectionWrapper()
+    result = wrapper.get_single_pokemon(pokemon_id)
+    if result is None:
+        message = "No existing pokemon with id=%s".format(pokemon_id)
+        ValueError(message)
+    return result
