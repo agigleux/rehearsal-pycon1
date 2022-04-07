@@ -1,3 +1,4 @@
+import re
 import sqlite3
 
 
@@ -31,5 +32,9 @@ def fetch_all_pokemons():
 
 
 def register_subscriber(email):
+    pattern = re.compile(r'(\w|[a-zA-Z0-9_])+@\w+\.(com||ch)')
+    if not pattern.match(email):
+        raise "Invalid email!"
     wrapper = ConnectionWrapper()
     wrapper.register_subscriber(email)
+    pass
